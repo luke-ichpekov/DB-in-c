@@ -1,6 +1,2 @@
-Next, open a file "the database", put the contents in the file, and close the file.
-
-Data will initially come in just as args to the program, eventually, we can make it come in as a csv file or something
-
-
-Then, introduce retrieval. I.e: should be able to get the data from the file, first we will just get the last row, and then we should be able to query for an ID for instance.
+- Fix retrieval, should persist between startups/closes - I should be able to run a while loop and retrieve all the data in the DB
+- Need better understanding of what should be malloced vs not malloced
