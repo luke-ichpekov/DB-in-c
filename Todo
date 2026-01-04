@@ -1,8 +1,6 @@
-Storing "data" in the db:
-    - Initially, this can be structured data, just a simple row containing [ id | name | location ], this should make it very easy to "map out" in the file itself
+Next, open a file "the database", put the contents in the file, and close the file.
 
 Data will initially come in just as args to the program, eventually, we can make it come in as a csv file or something
 
-Next, open a file "the database", put the contents in the file, and close the file.
 
 Then, introduce retrieval. I.e: should be able to get the data from the file, first we will just get the last row, and then we should be able to query for an ID for instance.
