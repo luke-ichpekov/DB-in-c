@@ -1,2 +1,4 @@
-- Fix retrieval, should persist between startups/closes - I should be able to run a while loop and retrieve all the data in the DB
-- Need better understanding of what should be malloced vs not malloced
+I CAN READ :) 
+
+I believe the next thing to do would be "getting" a row, i.e: retrieve by id.
+I also need to look into how DBs do this under the hood, I think a linear scan would be bad, so curious how indexing "works" under the hood

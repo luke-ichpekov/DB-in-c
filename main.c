@@ -6,12 +6,16 @@ struct Row* parseArgs(char* args[]);
 FILE* openDB(char* mode);
 void insert(FILE* db, struct Row* data);
 
+const int ID_SIZE = 20;
+const int NAME_SIZE = 20;
+const int LOCATION_SIZE = 20;
+
 char* PATH_TO_DB = "dbFile.bin";
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
 struct Row {
-	char id;
-	char name;
-	char location;
+	char id[ID_SIZE];
+	char name[NAME_SIZE];
+	char* location[LOCATION_SIZE];
 };
 
 FILE* openDB(char* mode){
@@ -28,35 +32,25 @@ void insert(FILE* db, struct Row* data){
 }
 
 struct Row* parseArgs(char* args[]){
-	struct Row* data = malloc(sizeof(struct Row));
-	// strcpy(data->id , args[1]);
-	// strcpy(data->name , args[2]);
-	// strcpy(data->location , args[3]);
-	data->id = 'a';
-	data->name = 'b';
-	data->location = 'c';
+	struct Row* data = (struct Row*)malloc(sizeof(struct Row));
+	strcpy(data->id , args[1]);
+	strcpy(data->name , args[2]);
+	strcpy(data->location , args[3]);
 	return data;
 }
 void retrieve(FILE* db, struct Row * dOut){
-	fread(dOut, sizeof(struct Row), 1, db);
-	printf("retrieved : %c, %c, %c \n", dOut->id, dOut->name, dOut->location);
-		// printf("retrieved : %s \n" , buffer);	
+	while(fread(dOut, sizeof(struct Row), 1, db)){
+		printf("retrieved : %s, %s, %s \n", dOut->id, dOut->name, dOut->location);
+	}
 }
 
 int main(int argc, char * argv[]){
-	// if (strcmp(argv[1], "r")==0){
-	// 	printf("IN HERE \n");
-	// 	struct Row* retrievalRow = malloc(sizeof(struct Row)); 
-	// 	FILE* dbRead = openDB("rb");
-	// 	retrieve(dbRead, retrievalRow);
-	// 	return 0;
-	// }
 	// if (argc < 4){
 	// 	printf("program Usage : ./main id name location");
 	// 	exit(1);
 	// }
 	// struct Row* data = parseArgs(argv);
-	// FILE* dbWrite = openDB("wb");
+	// FILE* dbWrite = openDB("ab");
 	// insert(dbWrite, data);
 	// fclose(dbWrite);
 	// free(data);
