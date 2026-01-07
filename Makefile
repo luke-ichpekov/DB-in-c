@@ -1,7 +1,13 @@
-all: main
+all: insert retrieve db
 
-main: main.c
-	gcc -o main main.c
-
+insert: insert.c
+	gcc -o insert insert.c
+retrieve: retrieve.c
+	gcc -o retrieve retrieve.c
+db: db.c
+	gcc -c db.c -o db.o
 clean:
-	rm -f main
+	rm -f insert retrieve db
+
+cleanDb:
+	rm -f dbFile.bin
