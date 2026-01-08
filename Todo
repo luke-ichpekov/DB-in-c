@@ -1,5 +1,6 @@
 I CAN READ :) 
 
+FIX DEPENDENCY CHAIN
 extract to Header files?  // how do these work again :despair
 also, putting data should be able to come from a csv, not cmdlnargs
 I believe the next thing to do would be "getting" a row, i.e: retrieve by id.

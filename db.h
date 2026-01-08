@@ -1,9 +1,12 @@
+#pragma once
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
-char* PATH_TO_DB = "dbFile.bin";
-const int ID_SIZE = 20;
-const int NAME_SIZE = 20;
-const int LOCATION_SIZE = 20;
+#define ID_SIZE 32
+#define NAME_SIZE 64
+#define LOCATION_SIZE 64
+#define PATH_TO_DB "dbFile.bin"
 
 struct Row {
 	char id[ID_SIZE];
