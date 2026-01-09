@@ -1,8 +1,9 @@
 #include "insert.h"
 
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
-void insert(FILE* db, struct Row* data, size_t dataLen){
-	for(int i =0; i < dataLen; i++){
+void insert(FILE* db, struct Row* data, size_t * dataLen){
+	// start at 1 so we don't write the header
+	for(size_t i =1; i < *dataLen; i++){
 		int res = fwrite(&data[i], sizeof(struct Row), 1, db);
 		if (res){
 			printf("successfully inserted into the DB \n");
@@ -12,33 +13,30 @@ void insert(FILE* db, struct Row* data, size_t dataLen){
 	}
 }
 
-struct Row* parseIncomingData(char* filePath){
-	printf("opening csv..  %s \n", filePath);
-	FILE* csv = fopen(filePath, "r");
+size_t loopOverCSV(struct Row* arrayOfRows, FILE* csv){
 	char line[1024];
-	int lengthOfFile = 100; // get actual length
-	struct Row* arrayOfRows = malloc(lengthOfFile*sizeof(struct Row));
 	int count =0;
 	while(fgets(line, sizeof(line), csv)){
-		// strcpy(data->id, strtok(line,","));
-		// strcpy(data->name, strtok(NULL,","));
-		// strcpy(data->location, strtok(NULL,","));
-		strcpy(arrayOfRows[count].id , strtok(line,","));
-		strcpy(arrayOfRows[count].name , strtok(NULL,","));
-		strcpy(arrayOfRows[count].location , strtok(NULL,","));
-		printf("parsed : %s, %s, %s \n", arrayOfRows[count].id, arrayOfRows[count].name, arrayOfRows[count].location);
+		if (arrayOfRows != NULL){
+			arrayOfRows[count].id = strtol(strtok(line,","), NULL, 10);
+			strcpy(arrayOfRows[count].name , strtok(NULL,","));
+			strcpy(arrayOfRows[count].location , strtok(NULL,","));
+			printf("parsed : %ld, %s, %s \n", arrayOfRows[count].id, arrayOfRows[count].name, arrayOfRows[count].location);
+		}
 		count+=1;
-		// printf("parsed : %s, %s, %s \n", data->id, data->name, data->location);
 	}
-	return arrayOfRows;
+	return count;
 }
 
-struct Row* parseArgs(char* args[]){
-	struct Row* data = (struct Row*)malloc(sizeof(struct Row));
-	strcpy(data->id , args[1]);
-	strcpy(data->name , args[2]);
-	strcpy(data->location , args[3]);
-	return data;
+struct Row* parseIncomingData(char* filePath, size_t*fileLen ){
+	struct Row* arrayOfRows = NULL;
+	printf("opening csv..  %s \n", filePath);
+	FILE* csv = fopen(filePath, "r");
+	*fileLen = loopOverCSV(arrayOfRows, csv) - 1;
+	fseek(csv,0, SEEK_SET);
+	arrayOfRows = malloc(*fileLen*sizeof(struct Row));
+	loopOverCSV(arrayOfRows, csv);
+	return arrayOfRows;
 }
 
 int main(int argc, char * argv[]){
@@ -46,9 +44,10 @@ int main(int argc, char * argv[]){
 		printf("program Usage : ./main file.csv");
 		exit(1);
 	}
-	struct Row* data =  parseIncomingData(argv[1]);
+	size_t * fileLen = malloc(sizeof(size_t));
+	struct Row* data =  parseIncomingData(argv[1],fileLen);
 	FILE* dbWrite = openDB("ab");
-	insert(dbWrite, data, 100 ); // this should be length of file
+	insert(dbWrite, data, fileLen ); // this should be length of file
 	// fclose(dbWrite);
 	// free(data);
 	return 0;

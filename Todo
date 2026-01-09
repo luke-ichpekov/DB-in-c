@@ -1,7 +1,6 @@
-I CAN READ :) 
+Ok I can now do a linear scan.
 
-FIX DEPENDENCY CHAIN
-extract to Header files?  // how do these work again :despair
-also, putting data should be able to come from a csv, not cmdlnargs
-I believe the next thing to do would be "getting" a row, i.e: retrieve by id.
+Next should be, how can I create an index and then search via index.
+
+
 I also need to look into how DBs do this under the hood, I think a linear scan would be bad, so curious how indexing "works" under the hood
