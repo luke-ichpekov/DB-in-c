@@ -1,6 +1,7 @@
+Probly gotta do B tree. Read this : https://github.com/jzarnett/ece356/blob/master/lectures/compiled/L14-Buffering_and_Indexing.pdf
+
 Ok I can now do a linear scan.
 
 Next should be, how can I create an index and then search via index.
-
 
 I also need to look into how DBs do this under the hood, I think a linear scan would be bad, so curious how indexing "works" under the hood
