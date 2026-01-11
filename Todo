@@ -1,4 +1,9 @@
-Probly gotta do B tree. Read this : https://github.com/jzarnett/ece356/blob/master/lectures/compiled/L14-Buffering_and_Indexing.pdf
+Check this out: https://www.geeksforgeeks.org/c/implementation-of-b-tree-in-c/
+
+also : https://www.cs.usfca.edu/~galles/visualization/BTree.html
+
+
+Watch : https://youtu.be/gsYqBtOMfAU and https://youtu.be/2ekDXEXD6tg
 
 Ok I can now do a linear scan.
 
