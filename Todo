@@ -1,12 +1,16 @@
-Check this out: https://www.geeksforgeeks.org/c/implementation-of-b-tree-in-c/
+Use this library for b tree: https://github.com/habedi/bptree/blob/main/test/example.c
 
-also : https://www.cs.usfca.edu/~galles/visualization/BTree.html
+I think the "record" I am using in bptree I should be able to make my data kinda fit the record so it would be like one row has a int_64 id which would then be the recordID, then, I would have a pointer to the file where the row exists as a data field in the btree I think.
+
+So then, when I insert something into the DB, I would create a record with the spot where it was added, and then insert that record into the b tree. When I retrieve, I traverse the Btree and then I would get a pointer to the file location. 
+
+Also, if I already have a DB and am asked to index, I would go row by row through the file, get the ID, and then create a record. Ideally then, the btree would be persistent since it's an index, so maybe we need an index file as well.
 
 
-Watch : https://youtu.be/gsYqBtOMfAU and https://youtu.be/2ekDXEXD6tg
+Given the project is about learning DB, I think I for now better to just use a btree library to get that working, I would like to learn more about other stuff.
 
-Ok I can now do a linear scan.
 
-Next should be, how can I create an index and then search via index.
+
+A cool idea would be to make my own b tree implementation later on if I want to revisit that.
 
 I also need to look into how DBs do this under the hood, I think a linear scan would be bad, so curious how indexing "works" under the hood
