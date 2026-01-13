@@ -1,4 +1,23 @@
 #include "insert.h"
+#define BPTREE_IMPLEMENTATION
+#include "bptree.h"
+
+#define PAGE_SIZE 4096
+
+// index record
+typedef struct record {
+    /** @brief The numeric key used for indexing in the B+ tree. */
+    int64_t id;
+	uint32_t page_id;
+	uint32_t offset;
+} record_t;
+
+
+
+static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
+    // Assumes BPTREE_NUMERIC_TYPE is defined (default is int64_t)
+    return (*a < *b) ? -1 : ((*a > *b) ? 1 : 0);
+}
 
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
 void insert(FILE* db, struct Row* data, size_t * dataLen){
@@ -28,6 +47,20 @@ size_t loopOverCSV(struct Row* arrayOfRows, FILE* csv){
 	return count;
 }
 
+static record_t* create_record(const bptree_key_t id, uint32_t page_id, uint32_t offset) {
+    record_t* rec = malloc(sizeof(record_t));
+    if (!rec) {
+        perror("Failed to allocate memory for record");
+        return NULL;
+    }
+
+	rec->id = id;
+	rec->page_id = page_id;
+	rec->offset = offset;
+    return rec;
+}
+
+
 struct Row* parseIncomingData(char* filePath, size_t*fileLen ){
 	struct Row* arrayOfRows = NULL;
 	printf("opening csv..  %s \n", filePath);
@@ -44,6 +77,9 @@ int main(int argc, char * argv[]){
 		printf("program Usage : ./main file.csv");
 		exit(1);
 	}
+	bptree * tree = bptree_create(4, record_compare, true);
+    printf("b tree created , maxKeys : %d \n", tree->max_keys);
+	create_record(1, 0, 0);
 	size_t * fileLen = malloc(sizeof(size_t));
 	struct Row* data =  parseIncomingData(argv[1],fileLen);
 	FILE* dbWrite = openDB("ab");

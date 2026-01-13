@@ -1,5 +1,7 @@
 Use this library for b tree: https://github.com/habedi/bptree/blob/main/test/example.c
 
+I think next I gotta figure out where the index is going to go, maybe in another file, and then I have to figure out how the page offset will work, also with multiple files how would that work ? So when I insert data, I have to insert into B tree, but I have to figure out at what page id/ page offset I am inserting.
+
 I think the "record" I am using in bptree I should be able to make my data kinda fit the record so it would be like one row has a int_64 id which would then be the recordID, then, I would have a pointer to the file where the row exists as a data field in the btree I think.
 
 So then, when I insert something into the DB, I would create a record with the spot where it was added, and then insert that record into the b tree. When I retrieve, I traverse the Btree and then I would get a pointer to the file location. 
