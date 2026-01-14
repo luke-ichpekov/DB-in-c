@@ -1,8 +1,9 @@
+#define BPTREE_VALUE_TYPE struct record*  // Configure tree to store pointers to records
 #include "insert.h"
 #define BPTREE_IMPLEMENTATION
 #include "bptree.h"
 
-#define PAGE_SIZE 4096
+#define PAGE_SIZE 4096 // bytes
 
 // index record
 typedef struct record {
@@ -22,10 +23,17 @@ static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
 void insert(FILE* db, struct Row* data, size_t * dataLen){
 	// start at 1 so we don't write the header
+	int page_id=0;
+	int offset = 0;
 	for(size_t i =1; i < *dataLen; i++){
+		long curPos = ftell(db);
+
+		page_id = curPos / PAGE_SIZE;
+		offset = curPos - (page_id*PAGE_SIZE);
+
 		int res = fwrite(&data[i], sizeof(struct Row), 1, db);
 		if (res){
-			printf("successfully inserted into the DB \n");
+			// printf("successfully inserted into the DB \n");
 		} else{
 			printf("Error occured while writing exiting \n");
 		}
@@ -40,7 +48,7 @@ size_t loopOverCSV(struct Row* arrayOfRows, FILE* csv){
 			arrayOfRows[count].id = strtol(strtok(line,","), NULL, 10);
 			strcpy(arrayOfRows[count].name , strtok(NULL,","));
 			strcpy(arrayOfRows[count].location , strtok(NULL,","));
-			printf("parsed : %ld, %s, %s \n", arrayOfRows[count].id, arrayOfRows[count].name, arrayOfRows[count].location);
+			// printf("parsed : %ld, %s, %s \n", arrayOfRows[count].id, arrayOfRows[count].name, arrayOfRows[count].location);
 		}
 		count+=1;
 	}
@@ -72,14 +80,40 @@ struct Row* parseIncomingData(char* filePath, size_t*fileLen ){
 	return arrayOfRows;
 }
 
+static void print_key(const bptree_key_t key) {
+    printf("FOUND KEY : %lld \n", (long long)key);  // Use %lld for int64_t
+}
+static void print_value(const bptree_value_t value) {
+    printf("FOUND PAGE_ID : %lld \n", (long long)value->page_id);  
+    printf("FOUND PAGE_ID : %lld \n", (long long)value->offset);  
+    // printf("FOUND offset : %lld \n", (long long)key);  
+}
+
+
 int main(int argc, char * argv[]){
 	if (argc < 2){
 		printf("program Usage : ./main file.csv");
 		exit(1);
 	}
+
 	bptree * tree = bptree_create(4, record_compare, true);
     printf("b tree created , maxKeys : %d \n", tree->max_keys);
-	create_record(1, 0, 0);
+	
+	
+	record_t * rec = create_record(15, 2, 5);
+	bptree_status status = bptree_put(tree, &rec->id, rec);
+	if (status != BPTREE_OK) {
+	printf("shoot \n");
+	}
+
+	record_t * newRecord = NULL;
+	status = bptree_get(tree, &rec->id, (bptree*)&newRecord);
+	if (status != BPTREE_OK) {
+	printf("uh oh \n");
+	}
+	print_key(newRecord->id);
+	print_value(newRecord);
+
 	size_t * fileLen = malloc(sizeof(size_t));
 	struct Row* data =  parseIncomingData(argv[1],fileLen);
 	FILE* dbWrite = openDB("ab");
