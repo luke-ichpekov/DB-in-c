@@ -1,19 +1,7 @@
-#define BPTREE_VALUE_TYPE struct record*  // Configure tree to store pointers to records
 #include "insert.h"
-#define BPTREE_IMPLEMENTATION
-#include "bptree.h"
-
-#define PAGE_SIZE 4096 // bytes
 
 // index record
-typedef struct record {
-    /** @brief The numeric key used for indexing in the B+ tree. */
-    int64_t id;
-	uint32_t page_id;
-	uint32_t offset;
-} record_t;
-
-
+bptree * tree;
 
 static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
     // Assumes BPTREE_NUMERIC_TYPE is defined (default is int64_t)
@@ -30,7 +18,11 @@ void insert(FILE* db, struct Row* data, size_t * dataLen){
 
 		page_id = curPos / PAGE_SIZE;
 		offset = curPos - (page_id*PAGE_SIZE);
-
+		record_t * rec = create_record((bptree_key_t )(long long)&data[i], page_id, offset);
+		bptree_status status = bptree_put(tree, &rec->id, rec);
+		if (status != BPTREE_OK) {
+		printf("shoot \n");
+		}
 		int res = fwrite(&data[i], sizeof(struct Row), 1, db);
 		if (res){
 			// printf("successfully inserted into the DB \n");
@@ -96,23 +88,11 @@ int main(int argc, char * argv[]){
 		exit(1);
 	}
 
-	bptree * tree = bptree_create(4, record_compare, true);
+	tree = bptree_create(4, record_compare, true);
     printf("b tree created , maxKeys : %d \n", tree->max_keys);
-	
-	
-	record_t * rec = create_record(15, 2, 5);
-	bptree_status status = bptree_put(tree, &rec->id, rec);
-	if (status != BPTREE_OK) {
-	printf("shoot \n");
-	}
 
-	record_t * newRecord = NULL;
-	status = bptree_get(tree, &rec->id, (bptree*)&newRecord);
-	if (status != BPTREE_OK) {
-	printf("uh oh \n");
-	}
-	print_key(newRecord->id);
-	print_value(newRecord);
+	// print_key(newRecord->id);
+	// print_value(newRecord);
 
 	size_t * fileLen = malloc(sizeof(size_t));
 	struct Row* data =  parseIncomingData(argv[1],fileLen);

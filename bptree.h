@@ -48,7 +48,6 @@
  *   "Hassan Abedi <hassan.abedi.t+bptree@gmail.com>"
  * @copyright MIT License
  */
-
 #ifndef BPTREE_H
 #define BPTREE_H
 
