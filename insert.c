@@ -7,6 +7,15 @@ static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
     // Assumes BPTREE_NUMERIC_TYPE is defined (default is int64_t)
     return (*a < *b) ? -1 : ((*a > *b) ? 1 : 0);
 }
+// Write the Btree to disk
+void flushTree(FILE * outFile){
+	int res = fwrite(tree, sizeof(tree), 1, outFile);	
+	if (res){
+		printf("successfully flushed tree to disk \n");
+	} else{
+		printf("Error occured while writing tree to disk \n");
+	}
+}
 
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
 void insert(FILE* db, struct Row* data, size_t * dataLen){
@@ -87,7 +96,6 @@ int main(int argc, char * argv[]){
 		printf("program Usage : ./main file.csv");
 		exit(1);
 	}
-
 	tree = bptree_create(4, record_compare, true);
     printf("b tree created , maxKeys : %d \n", tree->max_keys);
 
@@ -96,9 +104,11 @@ int main(int argc, char * argv[]){
 
 	size_t * fileLen = malloc(sizeof(size_t));
 	struct Row* data =  parseIncomingData(argv[1],fileLen);
-	FILE* dbWrite = openDB("ab");
+	FILE* dbWrite = openFile(PATH_TO_DB, "ab");
+	FILE* outFile = openFile("outFile.bin", "ab");
 	insert(dbWrite, data, fileLen ); // this should be length of file
 	// fclose(dbWrite);
 	// free(data);
+	flushTree(outFile);
 	return 0;
 }

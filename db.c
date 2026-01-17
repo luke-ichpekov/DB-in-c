@@ -1,7 +1,7 @@
 #include "db.h"
 
-FILE* openDB(char* mode){
-	FILE* db = fopen(PATH_TO_DB, mode);
+FILE* openFile(char *filePath, char* mode){
+	FILE* db = fopen(filePath, mode);
 	if (db == NULL){
 		printf("error opening the DB exiting..");
 		exit(1);

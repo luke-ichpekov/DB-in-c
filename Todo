@@ -1,5 +1,9 @@
 Use this library for b tree: https://github.com/habedi/bptree/blob/main/test/example.c
 
+
+Need to fix retrieval, I am not really sure why it's breaking but I gotta lock in 
+
+
 Next step, I need to flush the B tree to a file maybe, so that when I look to retrieve, I load in the b tree and then have it in memory and then I can check b tree and then retrieve from file. I have to see how other DBs do this, like where does the index live?
 
 I also have to adjust retrieve because it needs to seek to the offset/page_id and retrieve but that could be after

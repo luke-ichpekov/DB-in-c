@@ -14,4 +14,4 @@ struct Row {
 	char location[LOCATION_SIZE];
 };
 
-FILE* openDB(char* mode);
+FILE* openFile(char *filePath, char* mode);
