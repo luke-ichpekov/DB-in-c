@@ -20,6 +20,7 @@ void retrieve(FILE* db, record_t * dOut, bptree_key_t key){
 	bptree_status status = bptree_get(tree, &search_key, (bptree_value_t*)&dOut);
 	if (status != BPTREE_OK) {
 		printf("MAAAAAN \n");
+		exit(1);
 	}
 	printf("got the key from the tree :  \n");
 	print_key(dOut->id);
@@ -37,15 +38,18 @@ int main(int argc, char * argv[]){
 	}
 
     bptree_key_t id = strtol(argv[1], NULL, 10);
-    printf("ID we are getting : %ld \n", id);
+    printf("ID we are attempting to get : %ld \n", id);
 	// record_t * retrievalRow = malloc(sizeof(record_t));
 	record_t * retrievalRow = NULL;
 	// try and get the index / Btree first
 	tree = bptree_create(4, record_compare, true);
 	FILE* bTreeFile = openFile("outFile.bin", "rb");
+
 	readInBtree(bTreeFile);	
 	printf("tree count : %d \n : ", tree->count);
+	
 	FILE* dbRead = openFile(PATH_TO_DB, "rb");
-    retrieve(dbRead, retrievalRow, id);
+    
+	retrieve(dbRead, retrievalRow, id);
 	return 0;
 }

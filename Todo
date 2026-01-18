@@ -1,7 +1,9 @@
-Use this library for b tree: https://github.com/habedi/bptree/blob/main/test/example.c
+- Use this library for b tree: https://github.com/habedi/bptree/blob/main/test/example.c
 
 
-Need to fix retrieval, I am not really sure why it's breaking but I gotta lock in 
+- SOLVE THIS ::::>> The issue is that the get operation is incorrect in the retrieval, so I am guessing some kinda mismatch in the datatypes somewhere
+    - Need to fix retrieval, I am not really sure why it's breaking but I gotta lock in ... 
+        - I think the tree is being created, and dumped, and when I read in the tree I am getting the correct count, so I assume it's being written to disk correctly
 
 
 Next step, I need to flush the B tree to a file maybe, so that when I look to retrieve, I load in the b tree and then have it in memory and then I can check b tree and then retrieve from file. I have to see how other DBs do this, like where does the index live?
