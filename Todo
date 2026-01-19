@@ -1,3 +1,11 @@
+- I believe the issue is that the bptree is holding pointers as records, so what is being stored in the actual tree is a pointer. So when you write the tree to disk, you are just writing pointers (memory addresses) to disk, so when you read those in again, they may not actually have the records // they are not allocated to you, so it's a segfault, basically, you are attempting to read in a pointer and say it's "yours" but it does not belong to you...
+
+So my options are : 
+    - Switch to making a in-memory DB (kinda cool and may get exposed to some new DS like SkipList)
+    - Insert only goes into the DB, the bpTree is created in retrieve on startup and then stays in memory (easy to do but kinda slow cuz then index has to be recreated everytime you start the DB), and would basically only update when db is restarted
+    - Or I can Alter the record to try and persist the B tree, I think basically each node would have to be serialized into plain data I could put into disk but then I would need to deserealize on startup. This would def be tricky ... So may leave this for now
+
+
 - Use this library for b tree: https://github.com/habedi/bptree/blob/main/test/example.c
 
 

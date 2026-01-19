@@ -9,7 +9,7 @@ static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
 }
 // Write the Btree to disk
 void flushTree(FILE * outFile){
-	int res = fwrite(tree, sizeof(tree), 1, outFile);	
+	int res = fwrite(tree, sizeof(struct bptree), 1, outFile);	
 	if (res){
 		printf("successfully flushed tree to disk \n");
 	} else{
@@ -24,10 +24,11 @@ void insert(FILE* db, struct Row* data, size_t * dataLen){
 	int offset = 0;
 	for(size_t i =1; i < *dataLen; i++){
 		long curPos = ftell(db);
-
 		page_id = curPos / PAGE_SIZE;
 		offset = curPos - (page_id*PAGE_SIZE);
-		record_t * rec = create_record((bptree_key_t )(long long)&data[i], page_id, offset);
+		record_t * rec = create_record((long long)data[i].id, page_id, offset);
+		printf("record I am inserting, id: %d \n", &rec->id);
+
 		bptree_status status = bptree_put(tree, &rec->id, rec);
 		if (status != BPTREE_OK) {
 		printf("shoot \n");
@@ -87,7 +88,6 @@ static void print_key(const bptree_key_t key) {
 static void print_value(const bptree_value_t value) {
     printf("FOUND PAGE_ID : %lld \n", (long long)value->page_id);  
     printf("FOUND PAGE_ID : %lld \n", (long long)value->offset);  
-    // printf("FOUND offset : %lld \n", (long long)key);  
 }
 
 
@@ -107,8 +107,10 @@ int main(int argc, char * argv[]){
 	FILE* dbWrite = openFile(PATH_TO_DB, "ab");
 	FILE* outFile = openFile("outFile.bin", "ab");
 	insert(dbWrite, data, fileLen ); // this should be length of file
-	// fclose(dbWrite);
-	// free(data);
+	
 	flushTree(outFile);
+	fclose(outFile);
+	fclose(dbWrite);
+	free(data);
 	return 0;
 }
