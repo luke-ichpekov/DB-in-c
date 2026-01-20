@@ -1,8 +1,12 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
 
-all: insert retrieve
+all: insert retrieve main
 
+main: main.o
+	$(CC) -o main main.o
+main.o: main.c
+	$(CC) $(CFLAGS) -c main.c
 insert: insert.o db.o bptree.o
 	$(CC) -o insert insert.o db.o bptree.o 
 bptree.o: bptree.c bptree.h
@@ -21,4 +25,4 @@ db.o: db.c db.h
 	$(CC) $(CFLAGS) -c db.c
 
 clean:
-	rm -f *.o insert retrieve db dbFile.bin
+	rm -f *.o insert retrieve db dbFile.bin main

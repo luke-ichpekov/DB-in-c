@@ -1,3 +1,11 @@
+Fix segfault in main.c
+
+
+Ideally I think I refactor this a bit to have this be kind of like a peristent shell. So I would have some program called like "handler" or "main", this would prompt the user for stuff like insert or retrieve mode, and then in that file we would create the Btree, and then based on user prompts we could open up the DB in the appropriate mode... etc
+
+I think I'm gonna keep with the regular DB but just build the BpTree at startup for now.
+I want to focus more on replication, sharding and stuff
+
 - I believe the issue is that the bptree is holding pointers as records, so what is being stored in the actual tree is a pointer. So when you write the tree to disk, you are just writing pointers (memory addresses) to disk, so when you read those in again, they may not actually have the records // they are not allocated to you, so it's a segfault, basically, you are attempting to read in a pointer and say it's "yours" but it does not belong to you...
 
 So my options are : 
