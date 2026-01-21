@@ -29,23 +29,14 @@ void readInBtree(FILE* bTreePath){
 }
 
 void retrieve(FILE* db, record_t * dOut, bptree_key_t key){
-	//check if in btree first
-	// const bptree_key_t search_key = 3;
-	record_t * rec = create_record(15, 2, 5);
-
-	record_t * found_rec = NULL;
-	bptree_status status = bptree_get(tree, &rec->id, (bptree_value_t*)&found_rec);
-	if (status != BPTREE_OK) {
-		printf("ERROR IN GET OPERATION \n");
-		exit(1);
+// check if in bptree first
+	
+// read from Db
+while(fread(dOut, sizeof(struct record_t*), 1, db)){
+        if ( dOut->id == key){
+            printf("found row: %ld, %s, %s \n", dOut->id, dOut->name, dOut->location);
+        }
 	}
-
-	// printf("got the rid);
-	// while(fread(dOut, sizeof(struct record_t*), 1, db)){
-    //     if ( dOut.	 == key){
-    //         printf("found row: %ld, %s, %s \n", dOut->id, dOut->name, dOut->location);
-    //     }
-	// }
 }
 
 int main(int argc, char * argv[]){

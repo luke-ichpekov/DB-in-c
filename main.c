@@ -9,6 +9,7 @@
 #include <time.h>
 #define PATH_TO_DB "dbFile.bin"
 
+FILE * dbFile;
 
 int main(){
     while(true){
@@ -18,10 +19,22 @@ int main(){
         printf("Would you like to read or insert (r/i)? \n");
         char input;
         scanf("%c", &input);
+
         if (input == "i"){
             printf("===== insert mode ======= \n");
+            dbFile = openFile(PATH_TO_DB, "ab");
+            fclose(dbFile);
         }
-        FILE* dbWrite = openFile(PATH_TO_DB, "ab");
+        else if (input == "r"){
+            printf("===== retrieve mode ======= \n");
+            dbFile = openFile(PATH_TO_DB, "rb");
+            // in retrieve mode we need to create the bTree
+
+            fclose(dbFile);
+        }
+        else {
+            printf("Not a valid mode, enter ('r' or 'i') \n");
+        }
 
     }
     return 0;

@@ -1,21 +1,5 @@
 #include "insert.h"
 
-// index record
-bptree * tree;
-
-static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
-    // Assumes BPTREE_NUMERIC_TYPE is defined (default is int64_t)
-    return (*a < *b) ? -1 : ((*a > *b) ? 1 : 0);
-}
-// Write the Btree to disk
-void flushTree(FILE * outFile){
-	int res = fwrite(tree, sizeof(struct bptree), 1, outFile);	
-	if (res){
-		printf("successfully flushed tree to disk \n");
-	} else{
-		printf("Error occured while writing tree to disk \n");
-	}
-}
 
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
 void insert(FILE* db, struct Row* data, size_t * dataLen){
