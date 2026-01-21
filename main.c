@@ -7,14 +7,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#define PATH_TO_DB "dbFile.bin"
+
 
 int main(){
-    printf("_|_     _|_     _|_     _|_     _|_     _|_     _|_     _\n \n");
-    printf("Welcome to the DB ^_^ \n");
-    printf("Would you like to read or insert (r/i)? \n");
-    char input;
-    scanf("%s",input);
-    // fix seg-fault
-    printf("Your input is: %s", input);
+    while(true){
+
+        printf("_|_     _|_     _|_     _|_     _|_     _|_     _|_     _\n \n");
+        printf("Welcome to the DB ^_^ \n");
+        printf("Would you like to read or insert (r/i)? \n");
+        char input;
+        scanf("%c", &input);
+        if (input == "i"){
+            printf("===== insert mode ======= \n");
+        }
+        FILE* dbWrite = openFile(PATH_TO_DB, "ab");
+
+    }
     return 0;
 }
