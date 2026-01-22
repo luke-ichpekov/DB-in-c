@@ -10,13 +10,13 @@ void insert(FILE* db, struct Row* data, size_t * dataLen){
 		long curPos = ftell(db);
 		page_id = curPos / PAGE_SIZE;
 		offset = curPos - (page_id*PAGE_SIZE);
-		record_t * rec = create_record((long long)data[i].id, page_id, offset);
-		printf("record I am inserting, id: %d \n", &rec->id);
+		// record_t * rec = create_record((long long)data[i].id, page_id, offset);
+		// printf("record I am inserting, id: %d \n", &rec->id);
 
-		bptree_status status = bptree_put(tree, &rec->id, rec);
-		if (status != BPTREE_OK) {
-		printf("shoot \n");
-		}
+		// bptree_status status = bptree_put(tree, &rec->id, rec);
+		// if (status != BPTREE_OK) {
+		// printf("shoot \n");
+		// }
 		int res = fwrite(&data[i], sizeof(struct Row), 1, db);
 		if (res){
 			// printf("successfully inserted into the DB \n");
@@ -80,8 +80,6 @@ int main(int argc, char * argv[]){
 		printf("program Usage : ./main file.csv");
 		exit(1);
 	}
-	tree = bptree_create(4, record_compare, true);
-    printf("b tree created , maxKeys : %d \n", tree->max_keys);
 
 	// print_key(newRecord->id);
 	// print_value(newRecord);
@@ -92,7 +90,6 @@ int main(int argc, char * argv[]){
 	FILE* outFile = openFile("outFile.bin", "ab");
 	insert(dbWrite, data, fileLen ); // this should be length of file
 	
-	flushTree(outFile);
 	fclose(outFile);
 	fclose(dbWrite);
 	free(data);

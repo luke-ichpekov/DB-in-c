@@ -8,8 +8,10 @@
 #include <string.h>
 #include <time.h>
 #define PATH_TO_DB "dbFile.bin"
+#include "createBtree.h"
 
 FILE * dbFile;
+bptree * tree;
 
 int main(){
     while(true){
@@ -23,13 +25,14 @@ int main(){
         if (input == "i"){
             printf("===== insert mode ======= \n");
             dbFile = openFile(PATH_TO_DB, "ab");
+            constructTree(dbFile, tree);
             fclose(dbFile);
         }
         else if (input == "r"){
             printf("===== retrieve mode ======= \n");
             dbFile = openFile(PATH_TO_DB, "rb");
             // in retrieve mode we need to create the bTree
-
+                        
             fclose(dbFile);
         }
         else {

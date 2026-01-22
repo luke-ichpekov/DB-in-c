@@ -34,7 +34,7 @@ void retrieve(FILE* db, record_t * dOut, bptree_key_t key){
 // read from Db
 while(fread(dOut, sizeof(struct record_t*), 1, db)){
         if ( dOut->id == key){
-            printf("found row: %ld, %s, %s \n", dOut->id, dOut->name, dOut->location);
+            printf("found row: %ld, %s, %s \n", dOut->id, dOut->offset, dOut->page_id);
         }
 	}
 }

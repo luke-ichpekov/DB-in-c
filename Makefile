@@ -3,9 +3,9 @@ CFLAGS = -Wall -Wextra -g
 
 all: insert retrieve main
 
-main: main.o
-	$(CC) -o main main.o
-main.o: main.c
+main: main.o bptree.o createBtree.o db.o
+	$(CC) -o main main.o bptree.o createBtree.o db.o
+main.o: main.c createBtree.h bptree.h db.h
 	$(CC) $(CFLAGS) -c main.c
 insert: insert.o db.o bptree.o
 	$(CC) -o insert insert.o db.o bptree.o 
@@ -17,7 +17,8 @@ retrieve: retrieve.o db.o bptree.o
 
 insert.o: insert.c insert.h db.h retrieve.h
 	$(CC) $(CFLAGS) -c insert.c
-
+createBtree.o: createBtree.c createBtree.h bptree.h db.h
+	$(CC) $(CFLAGS) -c createBtree.c
 retrieve.o: retrieve.c retrieve.h db.h
 	$(CC) $(CFLAGS) -c retrieve.c 
 
