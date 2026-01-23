@@ -3,6 +3,7 @@
 
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
 void insert(FILE* db, struct Row* data, size_t * dataLen){
+	printf("inserting into the db \n \n");
 	// start at 1 so we don't write the header
 	int page_id=0;
 	int offset = 0;
@@ -18,12 +19,11 @@ void insert(FILE* db, struct Row* data, size_t * dataLen){
 		// printf("shoot \n");
 		// }
 		int res = fwrite(&data[i], sizeof(struct Row), 1, db);
-		if (res){
-			// printf("successfully inserted into the DB \n");
-		} else{
+		if (!res){
 			printf("Error occured while writing exiting \n");
 		}
 	}
+	printf("data was successfully inserted into the DB \n");
 }
 
 size_t loopOverCSV(struct Row* arrayOfRows, FILE* csv){
@@ -85,10 +85,10 @@ int main(int argc, char * argv[]){
 	// print_value(newRecord);
 
 	size_t * fileLen = malloc(sizeof(size_t));
-	struct Row* data =  parseIncomingData(argv[1],fileLen);
+	struct Row* data =  parseIncomingData(argv[1], fileLen);
 	FILE* dbWrite = openFile(PATH_TO_DB, "ab");
 	FILE* outFile = openFile("outFile.bin", "ab");
-	insert(dbWrite, data, fileLen ); // this should be length of file
+	insert(dbWrite, data, fileLen); // this should be length of file
 	
 	fclose(outFile);
 	fclose(dbWrite);

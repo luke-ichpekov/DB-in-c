@@ -14,24 +14,32 @@ FILE * dbFile;
 bptree * tree;
 
 int main(){
+    
+    // printf("_|_     _|_     _|_     _|_     _|_     _|_     _|_     _\n \n");
+    printf("Welcome to the DB ^_^ \n");
     while(true){
-
-        printf("_|_     _|_     _|_     _|_     _|_     _|_     _|_     _\n \n");
-        printf("Welcome to the DB ^_^ \n");
         printf("Would you like to read or insert (r/i)? \n");
         char input;
         scanf("%c", &input);
 
-        if (input == "i"){
-            printf("===== insert mode ======= \n");
+        if (input == 'i'){
+            printf("===== insert mode ======= \n \n");
+            printf("enter a path to a file \n");
+            char * filePath;
             dbFile = openFile(PATH_TO_DB, "ab");
-            constructTree(dbFile, tree);
+            
+            size_t * fileLen = malloc(sizeof(size_t)); // length of the file which will be updated in `parseIncomingData`
+            scanf("%s", filePath);
+	        struct Row* data =  parseIncomingData(filePath, fileLen);
+            insert(dbFile, data, fileLen);
             fclose(dbFile);
+            continue;
         }
         else if (input == "r"){
             printf("===== retrieve mode ======= \n");
             dbFile = openFile(PATH_TO_DB, "rb");
             // in retrieve mode we need to create the bTree
+            constructTree(dbFile, tree);
                         
             fclose(dbFile);
         }

@@ -6,20 +6,19 @@ static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
 }
 
 void constructTree(FILE* db, bptree * tree){
+    printf("constructing the Btree \n");
     int page_id=0;
 	int offset = 0;
 	record_t * retrievalRow = NULL;
     while(fread(retrievalRow, sizeof(struct record_t*), 1, db)){
-    
     long curPos = ftell(db);
     page_id = curPos / PAGE_SIZE;
     offset = curPos - (page_id*PAGE_SIZE);
-
     printf("record I am inserting, id: %d \n", &retrievalRow->id);
     bptree_status status = bptree_put(tree, &retrievalRow->id, retrievalRow);
     if (status != BPTREE_OK) {
     printf("shoot \n");
-    }  
+    }
 }
 }
 
