@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -g
 
-all: insert retrieve main
+all: retrieve main
 
-main: main.o bptree.o createBtree.o db.o
-	$(CC) -o main main.o bptree.o createBtree.o db.o
+main: main.o bptree.o createBtree.o db.o insert.o
+	$(CC) -o main main.o bptree.o createBtree.o db.o insert.o
 main.o: main.c createBtree.h bptree.h db.h
 	$(CC) $(CFLAGS) -c main.c
 insert: insert.o db.o bptree.o

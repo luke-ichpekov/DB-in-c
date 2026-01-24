@@ -22,6 +22,9 @@ void insert(FILE* db, struct Row* data, size_t * dataLen){
 		if (!res){
 			printf("Error occured while writing exiting \n");
 		}
+		else{
+			printf("Successfully inserted : %d, %s, %s \n", data[i].id, data[i].name, data[i].location);
+		}
 	}
 	printf("data was successfully inserted into the DB \n");
 }
@@ -75,23 +78,23 @@ static void print_value(const bptree_value_t value) {
 }
 
 
-int main(int argc, char * argv[]){
-	if (argc < 2){
-		printf("program Usage : ./main file.csv");
-		exit(1);
-	}
+// int main(int argc, char * argv[]){
+// 	if (argc < 2){
+// 		printf("program Usage : ./main file.csv");
+// 		exit(1);
+// 	}
 
-	// print_key(newRecord->id);
-	// print_value(newRecord);
+// 	// print_key(newRecord->id);
+// 	// print_value(newRecord);
 
-	size_t * fileLen = malloc(sizeof(size_t));
-	struct Row* data =  parseIncomingData(argv[1], fileLen);
-	FILE* dbWrite = openFile(PATH_TO_DB, "ab");
-	FILE* outFile = openFile("outFile.bin", "ab");
-	insert(dbWrite, data, fileLen); // this should be length of file
+// 	size_t * fileLen = malloc(sizeof(size_t));
+// 	struct Row* data =  parseIncomingData(argv[1], fileLen);
+// 	FILE* dbWrite = openFile(PATH_TO_DB, "ab");
+// 	FILE* outFile = openFile("outFile.bin", "ab");
+// 	insert(dbWrite, data, fileLen); // this should be length of file
 	
-	fclose(outFile);
-	fclose(dbWrite);
-	free(data);
-	return 0;
-}
+// 	fclose(outFile);
+// 	fclose(dbWrite);
+// 	free(data);
+// 	return 0;
+// }

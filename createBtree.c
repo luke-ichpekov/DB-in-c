@@ -1,5 +1,4 @@
 #include "createBtree.h"
-
 static int record_compare(const bptree_key_t* a, const bptree_key_t* b) {
     // Assumes BPTREE_NUMERIC_TYPE is defined (default is int64_t)
     return (*a < *b) ? -1 : ((*a > *b) ? 1 : 0);

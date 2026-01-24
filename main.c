@@ -10,6 +10,7 @@
 #define PATH_TO_DB "dbFile.bin"
 #include "createBtree.h"
 
+
 FILE * dbFile;
 bptree * tree;
 
@@ -24,12 +25,13 @@ int main(){
 
         if (input == 'i'){
             printf("===== insert mode ======= \n \n");
-            printf("enter a path to a file \n");
-            char * filePath;
             dbFile = openFile(PATH_TO_DB, "ab");
-            
-            size_t * fileLen = malloc(sizeof(size_t)); // length of the file which will be updated in `parseIncomingData`
+
+            printf("enter a path to a file \n");
+            char filePath[256];
             scanf("%s", filePath);
+            printf("the file path is : %s \n", filePath);
+            size_t * fileLen = malloc(sizeof(size_t)); // length of the file which will be updated in `parseIncomingData`
 	        struct Row* data =  parseIncomingData(filePath, fileLen);
             insert(dbFile, data, fileLen);
             fclose(dbFile);
