@@ -1,3 +1,5 @@
+# Construct_tree is segfaulting
+
 
 Ideally I think I refactor this a bit to have this be kind of like a peristent shell. So I would have some program called like "handler" or "main", this would prompt the user for stuff like insert or retrieve mode, and then in that file we would create the Btree, and then based on user prompts we could open up the DB in the appropriate mode... etc
 

@@ -37,7 +37,7 @@ int main(){
             fclose(dbFile);
             continue;
         }
-        else if (input == "r"){
+        if (input == 'r'){
             printf("===== retrieve mode ======= \n");
             dbFile = openFile(PATH_TO_DB, "rb");
             // in retrieve mode we need to create the bTree

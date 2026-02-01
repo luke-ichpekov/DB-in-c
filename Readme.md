@@ -15,3 +15,14 @@ Key things I want to learn with this
 - Caches in data retrieval
 
 A cool idea would be to make my own b tree implementation later on if I want to revisit that.
+
+
+# To run this 
+
+`make`
+
+`./main`
+
+`i` (insert)
+
+`sample_rows.csv` (path to file name)
