@@ -51,10 +51,10 @@ int main(int argc, char * argv[]){
 	// record_t * retrievalRow = malloc(sizeof(record_t));
 	record_t * retrievalRow = NULL;
 	// try and get the index / Btree first
-	tree = bptree_create(4, record_compare, true);
-	FILE* bTreeFile = openFile("outFile.bin", "rb");
+	// tree = bptree_create(4, record_compare, true);
+	// FILE* bTreeFile = openFile("outFile.bin", "rb");
 
-	readInBtree(bTreeFile);	
+	// readInBtree(bTreeFile);	
 	printf("tree count : %d \n : ", tree->height);
 	
 	FILE* dbRead = openFile(PATH_TO_DB, "rb");

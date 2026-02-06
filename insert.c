@@ -2,7 +2,7 @@
 
 
 // intiially, data will be structured as  [id | name | location] - for easy mapping in the file
-void insert(FILE* db, struct Row* data, size_t * dataLen){
+void insert(FILE* db, struct Row* data, size_t * dataLen, bptree* tree){
 	printf("inserting into the db \n \n");
 	// start at 1 so we don't write the header
 	int page_id=0;
@@ -11,13 +11,12 @@ void insert(FILE* db, struct Row* data, size_t * dataLen){
 		long curPos = ftell(db);
 		page_id = curPos / PAGE_SIZE;
 		offset = curPos - (page_id*PAGE_SIZE);
-		// record_t * rec = create_record((long long)data[i].id, page_id, offset);
-		// printf("record I am inserting, id: %d \n", &rec->id);
-
-		// bptree_status status = bptree_put(tree, &rec->id, rec);
-		// if (status != BPTREE_OK) {
-		// printf("shoot \n");
-		// }
+		record_t * rec = create_record((long long)data[i].id, page_id, offset);
+		constructTree(db, tree);	
+		bptree_status status = bptree_put(tree, &rec->id, rec);
+		if (status != BPTREE_OK) {
+		printf("shoot \n");
+		}
 		int res = fwrite(&data[i], sizeof(struct Row), 1, db);
 		if (!res){
 			printf("Error occured while writing exiting \n");

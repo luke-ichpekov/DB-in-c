@@ -13,6 +13,6 @@ typedef struct record {
 } record_t;
 
 
-void insert(FILE* db, struct Row* data, size_t * dataLen);
+void insert(FILE* db, struct Row* data, size_t * dataLen, bptree* tree);
 struct Row* parseIncomingData(char* filePath, size_t*fileLen);
 static record_t* create_record(const bptree_key_t id, uint32_t page_id, uint32_t offset);

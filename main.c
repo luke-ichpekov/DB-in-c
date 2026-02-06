@@ -33,7 +33,7 @@ int main(){
             printf("the file path is : %s \n", filePath);
             size_t * fileLen = malloc(sizeof(size_t)); // length of the file which will be updated in `parseIncomingData`
 	        struct Row* data =  parseIncomingData(filePath, fileLen);
-            insert(dbFile, data, fileLen);
+            insert(dbFile, data, fileLen, tree);
             fclose(dbFile);
             continue;
         }
